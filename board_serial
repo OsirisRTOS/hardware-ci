@@ -1,0 +1,26 @@
+#!/bin/python3
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import register_runner
+
+if __name__ == "__main__":
+	chips = register_runner.get_chips()
+	if len(sys.argv) != 3:
+		print("Usage: %s <device>" % sys.argv[0])
+		print("Available devices:")
+		for chip in chips:
+			print("  %s" % chip)
+		sys.exit(1)
+
+	devices = list(filter(lambda x: x["dev_type"] == sys.argv[1], chips))
+
+	if len(devices) == 0:
+		print("Device not found")
+		sys.exit(1)
+
+	device = devices[0]
+
+	print(device['serial'])
+

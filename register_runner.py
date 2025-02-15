@@ -1,4 +1,4 @@
-#!/bin/python
+#!/bin/python3
 import os
 import re
 import subprocess
@@ -115,7 +115,14 @@ class Config(TypedDict):
     serial_map: Dict[str, str]
     runner_name: str
 
-def parse_config_file(config_file: str) -> dict:
+def parse_config_file(config_file: str = None) -> dict:
+    if config_file is None:
+        env_value = os.getenv("CHIPS_FILE_PATH")
+        if env_value:
+            config_file = env_value
+        else:
+            config_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "chips.yml")
+
     with open(config_file) as f:
         return yaml.safe_load(f)
 
@@ -138,10 +145,8 @@ def parse_config_file(config_file: str) -> dict:
 
     return config
 
-def main():
-    config_file_path = os.getenv("CHIPS_FILE_PATH") or "chips.yml"
-
-    config = parse_config_file(config_file_path)
+def get_chips():
+    config = parse_config_file()
     probe_info = run_command("st-info --probe")
     if not probe_info:
         print("No output from st-info --probe")
@@ -155,6 +160,11 @@ def main():
     for i, probe in enumerate(chips):
         if probe["serial"] in config["serial_map"]:
             chips[i]["dev_type"] = config["serial_map"][probe["serial"]]
+
+    return chips
+
+def main():
+    chips = get_chips()
 
     print(yaml.dump(chips))
 
