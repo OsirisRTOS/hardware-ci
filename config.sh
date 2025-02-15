@@ -14,5 +14,6 @@ podman run --rm --name "${CONTAINER_NAME}" \
     --userns=keep-id \
     --cap-add=SYS_RAWIO --cap-add=CAP_MKNOD \
     -v "$(pwd)/chips.yml:/actions-runner/chips.yml" \
-    --device /dev/bus/usb -it ghcr.io/osirisrtos/hardware-ci:latest \
+    --device /dev/bus/usb \
+    ghcr.io/osirisrtos/hardware-ci:latest \
     "$@"

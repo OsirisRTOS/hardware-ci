@@ -159,14 +159,15 @@ def main():
 
     labels = set()
     for chip in chips:
-        labels.add(chip['dev_type'])
+        labels.add(chip['dev_type'].lower())
 
-    args = f"--labels {','.join(list(labels))} --name {config['runner_name']}"
+    args = f"--unattended --labels {','.join(list(labels))} --name {config['runner_name']}"
 
     if len(sys.argv) > 1:
         args += " " + " ".join(sys.argv[1:])
 
     os.system(f"./config.sh {args}")
+    os.system(f"./run.sh")
 
 if __name__ == "__main__":
     main()
