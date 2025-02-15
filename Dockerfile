@@ -34,4 +34,6 @@ ENV PATH="/actions-runner:${PATH}"
 
 USER nonroot
 
-ENTRYPOINT ["/bin/bash"]
+WORKDIR /actions-runner
+
+ENTRYPOINT [ "/bin/bash" ]
