@@ -1,4 +1,4 @@
-FROM fedora:latest AS devcontainer
+FROM fedora:latest
 
 RUN dnf update -y && \
 	dnf install -y --setopt=keepcache=0 \
