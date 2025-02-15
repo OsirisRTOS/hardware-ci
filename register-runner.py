@@ -166,7 +166,7 @@ def main():
     if len(sys.argv) > 1:
         args += " " + " ".join(sys.argv[1:])
 
-    print(f"Registering runner with args: {args}")
+    os.system(f"./config.sh {args}")
 
 if __name__ == "__main__":
     main()
