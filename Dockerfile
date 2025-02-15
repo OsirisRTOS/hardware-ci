@@ -49,4 +49,4 @@ ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/local/lib64
 
 WORKDIR /actions-runner
 
-CMD [ "/actions-runner/register-runner.py" ]
+ENTRYPOINT [ "/actions-runner/register-runner.py" ]
