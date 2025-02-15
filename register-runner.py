@@ -1,6 +1,7 @@
 #!/bin/python
 import os
 import re
+import subprocess
 import sys
 from typing import Dict, List, TypedDict
 import yaml
@@ -161,13 +162,15 @@ def main():
     for chip in chips:
         labels.add(chip['dev_type'].lower())
 
-    args = f"--unattended --labels {','.join(list(labels))} --name {config['runner_name']}"
-
+    args = ["--unattended", "--labels", ','.join(list(labels)), "--name", config['runner_name']]
     if len(sys.argv) > 1:
-        args += " " + " ".join(sys.argv[1:])
+        args += sys.argv[1:]
 
-    os.system(f"./config.sh {args}")
-    os.system(f"./run.sh")
+    print("Running config.sh with args ", args)
+    subprocess.run(["./config.sh"] + args, check=True)
+    print("Running run.sh")
+    subprocess.run(["./run.sh"], check=True)
 
 if __name__ == "__main__":
     main()
+
