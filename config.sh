@@ -9,7 +9,7 @@ if podman ps -aq -f name="^${CONTAINER_NAME}$" | grep -q .; then
   podman rm "${CONTAINER_NAME}" || true
 fi
 
-podman run --rm --name "${CONTAINER_NAME}" \
+podman run --rm --name "${CONTAINER_NAME}" -d \
     --user "$(id -u):$(id -g)" \
     --userns=keep-id \
     --cap-add=SYS_RAWIO --cap-add=CAP_MKNOD \
