@@ -37,7 +37,6 @@ RUN cd /actions-runner && \
 	chown -R nonroot:nonroot /actions-runner
 
 # Fix for Fedora not finding libstlink.so.1
-ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/local/lib64
 
 RUN pip install PyYAML
 COPY register-runner.py /actions-runner
@@ -46,6 +45,7 @@ RUN chmod +x /actions-runner/register-runner.py
 ENV PATH="/actions-runner:${PATH}"
 
 USER nonroot
+ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/local/lib64
 
 WORKDIR /actions-runner
 
