@@ -162,7 +162,7 @@ def main():
     for chip in chips:
         labels.add(chip['dev_type'].lower())
 
-    args = ["--unattended", "--labels", ','.join(list(labels)), "--name", config['runner_name']]
+    args = ["--unattended", "--replace", "--labels", ','.join(list(labels)), "--name", config['runner_name']]
     if len(sys.argv) > 1:
         args += sys.argv[1:]
 
