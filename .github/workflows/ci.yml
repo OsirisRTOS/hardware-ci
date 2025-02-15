@@ -43,7 +43,7 @@ jobs:
           else
             TAG="${BRANCH//\//-}"
           fi
-          CONTAINER_NAME="ghcr.io/${REPO}:${BRANCH//\//-}"
+          CONTAINER_NAME="ghcr.io/${REPO}:${TAG}"
           echo "container_name=$CONTAINER_NAME" >> $GITHUB_OUTPUT
           echo "container_without_tag=ghcr.io/${REPO}" >> $GITHUB_OUTPUT
 
