@@ -10,10 +10,7 @@ if podman ps -aq -f name="^${CONTAINER_NAME}$" | grep -q .; then
 fi
 
 podman run --rm --name "${CONTAINER_NAME}" -d \
-    --user "$(id -u):$(id -g)" \
-    --userns=keep-id \
-    --cap-add=SYS_RAWIO --cap-add=CAP_MKNOD \
-    -v "$(pwd)/chips.yml:/actions-runner/chips.yml" \
+    -v "$(pwd)/chips.yml:/actions-runner/chips.yml:ro" \
     --device /dev/bus/usb \
     ghcr.io/osirisrtos/hardware-ci:latest \
     "$@"
