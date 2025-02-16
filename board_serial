@@ -1,5 +1,6 @@
 #!/bin/python3
 import os
+import random
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -16,11 +17,14 @@ if __name__ == "__main__":
 
 	devices = list(filter(lambda x: x["dev_type"] == sys.argv[1], chips))
 
+	sys.stderr.write(f"Have {len(chips)} chips, {len(devices)} match of type {sys.argv[1]}")
+
 	if len(devices) == 0:
-		print("Device not found")
+		sys.stderr.write(f"No devices of type {sys.argv[1]} found")
 		sys.exit(1)
 
-	device = devices[0]
+	device = random.choice(devices)
+	sys.stderr.write(f"Selected {device['serial']}")
 
 	print(device['serial'])
 
