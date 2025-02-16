@@ -9,7 +9,7 @@ if docker ps -aq -f name="^${CONTAINER_NAME}$" | grep -q .; then
   docker rm "${CONTAINER_NAME}" || true
 fi
 
-docker run --pull always --rm --name "${CONTAINER_NAME}" -d \
+docker run --pull always --name "${CONTAINER_NAME}" -d \
     -v "$(pwd)/chips.yml:/actions-runner/chips.yml:ro" \
     --device /dev/bus/usb --restart unless-stopped \
     ghcr.io/osirisrtos/hardware-ci:latest \
