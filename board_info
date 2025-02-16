@@ -17,7 +17,6 @@ def parse_args():
     serial_parser.add_argument("chiptype", help="Device type to filter on")
 
     print_parser = subparsers.add_parser("print", help="Get specific device info (default command)")
-    print_parser.add_argument("chiptype", help="Device chip type to filter on")
     print_parser.add_argument("--serial", type=str, help="Serial number of the device")
     group = print_parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--version", action="store_true", help="Print the version")
