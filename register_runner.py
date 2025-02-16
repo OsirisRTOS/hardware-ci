@@ -164,7 +164,7 @@ def get_chips() -> Tuple[List[ProbeMCU], Config]:
     return chips, config
 
 def main():
-    chips = get_chips()
+    chips, config = get_chips()
 
     print(yaml.dump(chips))
 
