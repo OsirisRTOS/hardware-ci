@@ -11,6 +11,6 @@ fi
 
 docker run --pull always --rm --name "${CONTAINER_NAME}" -d \
     -v "$(pwd)/chips.yml:/actions-runner/chips.yml:ro" \
-    --device /dev/bus/usb \
+    --device /dev/bus/usb --restart unless-stopped \
     ghcr.io/osirisrtos/hardware-ci:latest \
     "$@"
