@@ -35,7 +35,7 @@ def main():
 	args = parse_args()
 	chips, _ = register_runner.get_chips()
 
-	if args.command == "get-serial":
+	if args.command == "serial":
 		devices = [chip for chip in chips if chip["dev_type"].lower() == args.chiptype.lower()]
 		if not devices:
 			sys.stderr.write(f"No devices of type {args.chiptype} found\n")
@@ -46,7 +46,7 @@ def main():
 		sys.stderr.write(f"Selected device with serial {device['serial']}\n")
 
 		print(device["serial"])
-	elif args.command == "get-info":
+	elif args.command == "print":
 		if args.serial:
 			device = next((chip for chip in chips if chip["serial"] == args.serial), None)
 		else:
@@ -77,6 +77,9 @@ def main():
 			sys.stderr.write("No valid option provided\n")
 			sys.exit(1)
 		print(value)
+	else:
+		sys.stderr.write("No valid command provided\n")
+		sys.exit(1)
 
 if __name__ == "__main__":
 	main()
