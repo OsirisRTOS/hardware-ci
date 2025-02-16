@@ -1,22 +1,12 @@
-FROM fedora:latest
+FROM ghcr.io/osirisrtos/osiris/devcontainer:main
+
+USER root
 
 RUN dnf update -y && \
 	dnf install -y --setopt=keepcache=0 \
-	@development-tools \
-	git \
-	cmake \
-	make \
-	libusb1-devel \
 	python3 \
 	python3-pip \
 	jq
-
-RUN git clone --single-branch --depth 1 -b "develop" https://github.com/stlink-org/stlink.git /tmp/stlink && \
-	cd /tmp/stlink && \
-	make -j release && \
-	make install && \
-	ldconfig && \
-	rm -rf /tmp/stlink
 
 RUN mkdir -p /actions-runner && \
 	chmod 1777 /actions-runner
@@ -36,8 +26,6 @@ RUN cd /actions-runner && \
 	./bin/installdependencies.sh && \
 	chown -R nonroot:nonroot /actions-runner
 
-# Fix for Fedora not finding libstlink.so.1
-
 RUN pip install PyYAML
 COPY register_runner.py /actions-runner
 RUN chmod +x /actions-runner/register_runner.py
@@ -45,7 +33,6 @@ RUN chmod +x /actions-runner/register_runner.py
 ENV PATH="/actions-runner:${PATH}"
 
 USER nonroot
-ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/local/lib64
 
 WORKDIR /actions-runner
 

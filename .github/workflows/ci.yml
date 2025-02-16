@@ -5,6 +5,8 @@ on:
   pull_request:
   merge_group:
   workflow_dispatch:
+  schedule:
+    - cron: "38 3 * * *"
 
 name: Osiris Hardware CI Container Images
 
