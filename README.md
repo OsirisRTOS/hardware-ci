@@ -5,7 +5,7 @@ This repo contains scripts that interact with the [GitHub Actions Runner](https:
 To set it up, connect a couple of STM32 devices to the runner machine and make sure they are visible when running the following command:
 
 ```sh
-podman run --rm --entrypoint st-info --device /dev/bus/usb ghcr.io/osirisrtos/hardware-ci:latest --probe
+docker run --rm --entrypoint st-info --device /dev/bus/usb ghcr.io/osirisrtos/hardware-ci:latest --probe
 ```
 
 Very likely, this will fail. The following steps will help you to make it work.
@@ -28,5 +28,5 @@ sudo udevadm control --reload-rules && sudo udevadm trigger
 Verify that the devices are accessible now:
 
 ```sh
-podman run --rm --entrypoint st-info --device /dev/bus/usb ghcr.io/osirisrtos/hardware-ci:latest --probe
+docker run --rm --entrypoint st-info --device /dev/bus/usb ghcr.io/osirisrtos/hardware-ci:latest --probe
 ```
