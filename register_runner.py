@@ -176,6 +176,9 @@ def main():
     if len(sys.argv) > 1:
         args += sys.argv[1:]
 
+    print("Cleaning up previous config")
+    subprocess.run(["./config.sh", "remove"] + args)
+
     print("Running config.sh with args ", args)
     subprocess.run(["./config.sh"] + args, check=True)
     print("Running run.sh")
