@@ -3,7 +3,7 @@ import os
 import re
 import subprocess
 import sys
-from typing import Dict, List, TypedDict
+from typing import Dict, List, Tuple, TypedDict
 import yaml
 
 def run_command(command: str) -> str:
@@ -145,7 +145,7 @@ def parse_config_file(config_file: str = None) -> dict:
 
     return config
 
-def get_chips():
+def get_chips() -> Tuple[List[ProbeMCU], Config]:
     config = parse_config_file()
     probe_info = run_command("st-info --probe")
     if not probe_info:
@@ -161,7 +161,7 @@ def get_chips():
         if probe["serial"] in config["serial_map"]:
             chips[i]["dev_type"] = config["serial_map"][probe["serial"]]
 
-    return chips
+    return chips, config
 
 def main():
     chips = get_chips()

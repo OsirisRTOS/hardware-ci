@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import register_runner
 
 if __name__ == "__main__":
-	chips = register_runner.get_chips()
+	chips, _ = register_runner.get_chips()
 	if len(sys.argv) != 3:
 		print("Usage: %s <device>" % sys.argv[0])
 		print("Available devices:")
