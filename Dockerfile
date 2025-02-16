@@ -27,9 +27,9 @@ RUN cd /actions-runner && \
 	chown -R nonroot:nonroot /actions-runner
 
 RUN pip install PyYAML
-COPY board_serial register_runner.py /actions-runner/
-RUN chmod +x /actions-runner/register_runner.py /actions-runner/board_serial && \
-	chown nonroot:nonroot /actions-runner/register_runner.py /actions-runner/board_serial
+COPY board_info register_runner.py /actions-runner/
+RUN chmod +x /actions-runner/register_runner.py /actions-runner/board_info && \
+	chown nonroot:nonroot /actions-runner/register_runner.py /actions-runner/board_info
 
 ENV PATH="/actions-runner:${PATH}"
 

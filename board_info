@@ -1,0 +1,82 @@
+#!/bin/python3
+import os
+import random
+import sys
+import argparse
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import register_runner
+
+def parse_args():
+	parser = argparse.ArgumentParser(
+		description="Extract specific info from a device of given chip type."
+	)
+	subparsers = parser.add_subparsers(title="commands", dest="command", required=True)
+
+	# Subcommand for getting the chip serial.
+	serial_parser = subparsers.add_parser("serial", help="Get chip serial number")
+	serial_parser.add_argument("chiptype", help="Device type to filter on")
+
+	# Subcommand for getting other device information.
+	info_parser = subparsers.add_parser("print", help="Get specific device info")
+	info_parser.add_argument("chiptype", help="Device chip type to filter on")
+	group = info_parser.add_mutually_exclusive_group(required=True)
+	group.add_argument("--serial", type=str, help="Serial number of the device")
+	group.add_argument("--version", action="store_true", help="Print the version")
+	group.add_argument("--flash-size", action="store_true", help="Print the flash")
+	group.add_argument("--flash-pagesize", action="store_true", help="Print the flash page size")
+	group.add_argument("--sram-size", action="store_true", help="Print the sram")
+	group.add_argument("--chipid", action="store_true", help="Print the chipid")
+	group.add_argument("--dev_type", action="store_true", help="Print the device type")
+
+	return parser.parse_args()
+
+def main():
+	args = parse_args()
+	chips, _ = register_runner.get_chips()
+
+	if args.command == "get-serial":
+		devices = [chip for chip in chips if chip["dev_type"].lower() == args.chiptype.lower()]
+		if not devices:
+			sys.stderr.write(f"No devices of type {args.chiptype} found\n")
+			sys.exit(1)
+		sys.stderr.write(f"Have {len(chips)} chips, {len(devices)} match of type {args.chiptype}\n")
+
+		device = random.choice(devices)
+		sys.stderr.write(f"Selected device with serial {device['serial']}\n")
+
+		print(device["serial"])
+	elif args.command == "get-info":
+		if args.serial:
+			device = next((chip for chip in chips if chip["serial"] == args.serial), None)
+		else:
+			if len(chips) == 1:
+				device = chips[0]
+			else:
+				sys.stderr.write(f"No serial given and more than one device available\n")
+				sys.exit(1)
+
+		if not device:
+			sys.stderr.write(f"No device found with serial {args.serial}\n")
+			sys.exit(1)
+
+
+		if args.version:
+			value = device["version"]
+		elif getattr(args, "flash_size", False):
+			value = device["flash_size"]
+		elif getattr(args, "flash_pagesize", False):
+			value = device["flash_pagesize"]
+		elif getattr(args, "sram_size", False):
+			value = device["sram_size"]
+		elif args.chipid:
+			value = device["chipid"]
+		elif args.dev_type:
+			value = device["dev_type"]
+		else:
+			sys.stderr.write("No valid option provided\n")
+			sys.exit(1)
+		print(value)
+
+if __name__ == "__main__":
+	main()

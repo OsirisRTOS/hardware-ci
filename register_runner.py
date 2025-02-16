@@ -15,9 +15,9 @@ def run_command(command: str) -> str:
 class ProbeMCU(TypedDict):
     version: str
     serial: str
-    flash: int
+    flash_size: int
     flash_pagesize: int
-    sram: int
+    sram_size: int
     chipid: int
     dev_type: str
 
