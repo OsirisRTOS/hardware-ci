@@ -8,14 +8,14 @@ import register_runner
 
 if __name__ == "__main__":
 	chips, _ = register_runner.get_chips()
-	if len(sys.argv) != 3:
-		print("Usage: %s <device>" % sys.argv[0])
-		print("Available devices:")
+	if len(sys.argv) != 2:
+		sys.stderr.write("Usage: %s <device>" % sys.argv[0])
+		sys.stderr.write("Available devices:")
 		for chip in chips:
-			print("  %s" % chip)
+			sys.stderr.write("  %s" % chip)
 		sys.exit(1)
 
-	devices = list(filter(lambda x: x["dev_type"] == sys.argv[1], chips))
+	devices = list(filter(lambda x: x["dev_type"].lower() == sys.argv[1].lower(), chips))
 
 	sys.stderr.write(f"Have {len(chips)} chips, {len(devices)} match of type {sys.argv[1]}")
 
