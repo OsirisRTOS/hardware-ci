@@ -9,22 +9,21 @@ import register_runner
 if __name__ == "__main__":
 	chips, _ = register_runner.get_chips()
 	if len(sys.argv) != 2:
-		sys.stderr.write("Usage: %s <device>" % sys.argv[0])
-		sys.stderr.write("Available devices:")
+		sys.stderr.write("Usage: %s <device>\n" % sys.argv[0])
+		sys.stderr.write("Available devices:\n")
 		for chip in chips:
-			sys.stderr.write("  %s" % chip)
+			sys.stderr.write("  %s\n" % chip)
 		sys.exit(1)
 
 	devices = list(filter(lambda x: x["dev_type"].lower() == sys.argv[1].lower(), chips))
 
-	sys.stderr.write(f"Have {len(chips)} chips, {len(devices)} match of type {sys.argv[1]}")
+	sys.stderr.write(f"Have {len(chips)} chips, {len(devices)} match of type {sys.argv[1]}\n")
 
 	if len(devices) == 0:
-		sys.stderr.write(f"No devices of type {sys.argv[1]} found")
+		sys.stderr.write(f"No devices of type {sys.argv[1]} found\n")
 		sys.exit(1)
 
 	device = random.choice(devices)
-	sys.stderr.write(f"Selected {device['serial']}")
+	sys.stderr.write(f"Selected {device['serial']}\n")
 
 	print(device['serial'])
-
