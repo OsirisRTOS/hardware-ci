@@ -53,9 +53,9 @@ def parse_probe_output(output: str) -> List[ProbeMCU]:
         patterns = {
             "version": r"version:\s*(.+)$",
             "serial": r"serial:\s*(.+)$",
-            "flash": r"flash:\s*(\d+).*",
+            "flash_size": r"flash:\s*(\d+).*",
             "flash_pagesize": r"flash:.*\(pagesize:\s*(\d+)\)",
-            "sram": r"sram:\s*(\d+)",
+            "sram_size": r"sram:\s*(\d+)",
             "chipid": r"chipid:\s*0x([0-9a-fA-F]+)",
             "dev_type": r"dev-?type:\s*(.+)$",
         }
