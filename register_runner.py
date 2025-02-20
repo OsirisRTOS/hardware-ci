@@ -66,7 +66,7 @@ def parse_probe_output(output: str) -> List[ProbeMCU]:
                 match = re.search(pattern, line, re.IGNORECASE)
                 if match:
                     value = match.group(1).strip()
-                    if key in ("flash", "flash_pagesize", "sram"):
+                    if key in ("flash_size", "flash_pagesize", "sram_size"):
                         try:
                             probe[key] = int(value)
                         except ValueError:
