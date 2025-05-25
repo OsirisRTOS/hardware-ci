@@ -35,7 +35,8 @@ RUN cd /home/$USERNAME/actions-runner && \
 	rm actions-runner-linux-${ARCH}.tar.gz
 
 USER root
-RUN ./bin/installdependencies.sh
+RUN cd /home/$USERNAME/actions-runner && \
+	./bin/installdependencies.sh
 USER $USERNAME
 
 # Install Python dependencies
