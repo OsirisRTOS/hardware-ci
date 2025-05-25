@@ -7,6 +7,7 @@ IMAGE="ghcr.io/osirisrtos/hardware-ci:latest"
 
 mkdir -p "${RUNNER_DIR}"
 touch "${RUNNER_DIR}/.env" "${RUNNER_DIR}/.path"
+chmod 644 "${RUNNER_DIR}/.env" "${RUNNER_DIR}/.path"
 
 podman pull "${IMAGE}" || true
 
@@ -23,9 +24,9 @@ if podman ps -aq -f name="^${CONTAINER_NAME}$" | grep -q .; then
 fi
 
 podman run --name "${CONTAINER_NAME}" -d \
-    --userns=keep-id --pull always \
-    -v "$(pwd)/chips.yml:/actions-runner/chips.yml:ro" \
-    -v "${RUNNER_DIR}/.env:/home/runner/actions-runner/.env:Z" \
+    --pull always \
+    --env-file "${RUNNER_DIR}/.env" \
+    -v "$(pwd)/chips.yml:/home/runner/actions-runner/chips.yml:ro" \
     -v "${RUNNER_DIR}/.path:/home/runner/actions-runner/.path:Z" \
     --device /dev/bus/usb --restart unless-stopped \
     "${IMAGE}" \

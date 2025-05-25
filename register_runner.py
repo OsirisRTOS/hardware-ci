@@ -4,6 +4,7 @@ import re
 import subprocess
 import sys
 from typing import Dict, List, Tuple, TypedDict
+import requests
 import yaml
 
 def run_command(command: str) -> str:
@@ -163,6 +164,19 @@ def get_chips() -> Tuple[List[ProbeMCU], Config]:
 
     return chips, config
 
+def registration_token(gh_token: str, org: str = "OsirisRTOS") -> str:
+    """
+    Fetches a GitHub Actions runner registration token.
+    """
+    url = f"https://api.github.com/orgs/{org}/actions/runners/registration-token"
+    headers = {
+        "Accept": "application/vnd.github.v3+json",
+        "Authorization": f"token {gh_token}"
+    }
+    response = requests.post(url, headers=headers)
+    response.raise_for_status()
+    return response.json().get("token")
+
 def main():
     chips, config = get_chips()
 
@@ -172,11 +186,21 @@ def main():
     for chip in chips:
         labels.add(chip['dev_type'].lower())
 
-    args = ["--unattended", "--replace", "--labels", ','.join(list(labels)), "--name", config['runner_name']]
-    if len(sys.argv) > 1:
-        args += sys.argv[1:]
+    token = os.getenv("GITHUB_TOKEN")
+    if not token:
+        print("GITHUB_TOKEN environment variable is not set")
+        sys.exit(1)
 
-    print("Running config.sh with args ", args)
+    registration_token = registration_token(token, org="OsirisRTOS")
+
+    args = [
+        "--unattended", "--replace", "--labels", ','.join(list(labels)),
+        "--name", config['runner_name'],
+        "--token", registration_token,
+        "--url", "https://github.com/OsirisRTOS",
+    ]
+
+    print("Running config.sh with args ", ' '.join(args))
     subprocess.run(["./config.sh"] + args)
 
     print("Running run.sh")
