@@ -191,12 +191,12 @@ def main():
         print("GITHUB_TOKEN environment variable is not set")
         sys.exit(1)
 
-    registration_token = registration_token(token, org="OsirisRTOS")
+    reg_token = registration_token(token, org="OsirisRTOS")
 
     args = [
         "--unattended", "--replace", "--labels", ','.join(list(labels)),
         "--name", config['runner_name'],
-        "--token", registration_token,
+        "--token", reg_token,
         "--url", "https://github.com/OsirisRTOS",
     ]
 
