@@ -2,21 +2,28 @@
 set -eoux pipefail
 
 CONTAINER_NAME="osiris-hardware-ci"
+RUNNER_DIR="$(pwd)/runner"
+
+mkdir -p "${RUNNER_DIR}"
+touch "${RUNNER_DIR}/.env" "${RUNNER_DIR}/.path"
 
 # If a running container with the same name exists, stop it.
-if docker ps -q -f name="^${CONTAINER_NAME}$" | grep -q .; then
+if podman ps -q -f name="^${CONTAINER_NAME}$" | grep -q .; then
   echo "Stopping running container ${CONTAINER_NAME}..."
-  docker stop "${CONTAINER_NAME}" || true
+  podman stop "${CONTAINER_NAME}" || true
 fi
 
 # If there's any container with the same name, remove it.
-if docker ps -aq -f name="^${CONTAINER_NAME}$" | grep -q .; then
+if podman ps -aq -f name="^${CONTAINER_NAME}$" | grep -q .; then
   echo "Removing existing container ${CONTAINER_NAME}..."
-  docker rm "${CONTAINER_NAME}" || true
+  podman rm "${CONTAINER_NAME}" || true
 fi
 
-docker run --pull always --name "${CONTAINER_NAME}" -d \
+podman run --name "${CONTAINER_NAME}" -d \
+    --userns=keep-id --pull always \
     -v "$(pwd)/chips.yml:/actions-runner/chips.yml:ro" \
+    -v "${RUNNER_DIR}/.env:/actions-runner/.env:Z" \
+    -v "${RUNNER_DIR}/.path:/actions-runner/.path:Z" \
     --device /dev/bus/usb --restart unless-stopped \
     ghcr.io/osirisrtos/hardware-ci:latest \
     "$@"
