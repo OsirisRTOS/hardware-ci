@@ -44,7 +44,9 @@ RUN pip install --user PyYAML
 
 # Copy necessary files
 COPY board_info register_runner.py /home/$USERNAME/actions-runner/
+USER root
 RUN chmod +x /home/$USERNAME/actions-runner/register_runner.py /home/$USERNAME/actions-runner/board_info
+USER $USERNAME
 
 # Update PATH for the non-root user
 ENV PATH="/home/$USERNAME/actions-runner:${PATH}"
