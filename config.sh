@@ -25,7 +25,7 @@ fi
 
 podman run --name "${CONTAINER_NAME}" -d \
     --pull always \
-    --env-file "${RUNNER_DIR}/.env" \
+    --env-file "$(pwd)/.env" \
     -v "$(pwd)/chips.yml:/home/runner/actions-runner/chips.yml:ro" \
     -v "${RUNNER_DIR}/.path:/home/runner/actions-runner/.path:Z" \
     --device /dev/bus/usb --restart unless-stopped \
