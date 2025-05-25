@@ -22,8 +22,8 @@ fi
 podman run --name "${CONTAINER_NAME}" -d \
     --userns=keep-id --pull always \
     -v "$(pwd)/chips.yml:/actions-runner/chips.yml:ro" \
-    -v "${RUNNER_DIR}/.env:/actions-runner/.env:Z" \
-    -v "${RUNNER_DIR}/.path:/actions-runner/.path:Z" \
+    -v "${RUNNER_DIR}/.env:/home/runner/actions-runner/.env:Z" \
+    -v "${RUNNER_DIR}/.path:/home/runner/actions-runner/.path:Z" \
     --device /dev/bus/usb --restart unless-stopped \
     ghcr.io/osirisrtos/hardware-ci:latest \
     "$@"
