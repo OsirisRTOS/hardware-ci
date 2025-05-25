@@ -40,7 +40,7 @@ RUN cd /home/$USERNAME/actions-runner && \
 USER $USERNAME
 
 # Install Python dependencies
-RUN pip install --user PyYAML
+RUN pip install --user PyYAML requests
 
 # Copy necessary files
 COPY board_info register_runner.py /home/$USERNAME/actions-runner/
