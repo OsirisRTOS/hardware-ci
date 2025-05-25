@@ -32,8 +32,11 @@ RUN cd /home/$USERNAME/actions-runner && \
 	RUNNER_URL=$(curl -s https://api.github.com/repos/actions/runner/releases/latest | jq -r ".assets[] | .browser_download_url | select(. | test(\"actions-runner-linux-${ARCH}*\"))") && \
 	curl -o actions-runner-linux-${ARCH}.tar.gz -L $RUNNER_URL && \
 	tar xzf ./actions-runner-linux-${ARCH}.tar.gz && \
-	rm actions-runner-linux-${ARCH}.tar.gz && \
-	./bin/installdependencies.sh
+	rm actions-runner-linux-${ARCH}.tar.gz
+
+USER root
+RUN ./bin/installdependencies.sh
+USER $USERNAME
 
 # Install Python dependencies
 RUN pip install --user PyYAML
