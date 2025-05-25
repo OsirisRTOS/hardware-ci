@@ -1,4 +1,4 @@
-FROM ghcr.io/osirisrtos/osiris/devcontainer:feature-reduce-container-size-cache
+FROM ghcr.io/osirisrtos/osiris/devcontainer:feature-reduce-container-size
 
 
 RUN dnf update -y && \
