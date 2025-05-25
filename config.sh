@@ -3,9 +3,12 @@ set -eoux pipefail
 
 CONTAINER_NAME="osiris-hardware-ci"
 RUNNER_DIR="$(pwd)/runner"
+IMAGE="ghcr.io/osirisrtos/hardware-ci:latest"
 
 mkdir -p "${RUNNER_DIR}"
 touch "${RUNNER_DIR}/.env" "${RUNNER_DIR}/.path"
+
+podman pull "${IMAGE}" || true
 
 # If a running container with the same name exists, stop it.
 if podman ps -q -f name="^${CONTAINER_NAME}$" | grep -q .; then
@@ -25,5 +28,5 @@ podman run --name "${CONTAINER_NAME}" -d \
     -v "${RUNNER_DIR}/.env:/home/runner/actions-runner/.env:Z" \
     -v "${RUNNER_DIR}/.path:/home/runner/actions-runner/.path:Z" \
     --device /dev/bus/usb --restart unless-stopped \
-    ghcr.io/osirisrtos/hardware-ci:latest \
+    "${IMAGE}" \
     "$@"
