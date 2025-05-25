@@ -50,7 +50,7 @@ jobs:
           echo "container_without_tag=ghcr.io/${REPO}" >> $GITHUB_OUTPUT
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v6
         with:
           file: Dockerfile
           push: true
