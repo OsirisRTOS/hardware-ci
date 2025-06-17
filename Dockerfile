@@ -13,8 +13,7 @@ RUN dnf update -y && \
 	dnf install -y --setopt=keepcache=0 \
 	python3 \
 	python3-pip \
-	jq \
-	docker && \
+	jq && \
 	dnf clean all
 
 # Switch to the non-root user

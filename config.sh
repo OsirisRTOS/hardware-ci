@@ -24,7 +24,6 @@ if podman ps -aq -f name="^${CONTAINER_NAME}$" | grep -q .; then
 fi
 
 podman run --name "${CONTAINER_NAME}" -d \
-    --privileged \
     --pull always \
     --env-file "$(pwd)/.env" \
     -v "$(pwd)/chips.yml:/home/runner/actions-runner/chips.yml:ro" \

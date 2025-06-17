@@ -186,12 +186,6 @@ def main():
     for chip in chips:
         labels.add(chip['dev_type'].lower())
 
-    try:
-        subprocess.Popen(["dockerd"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    except FileNotFoundError:
-        print("dockerd not found. Please ensure Docker is installed and in your PATH.")
-        sys.exit(1)
-
     token = os.getenv("GITHUB_TOKEN")
     if not token:
         print("GITHUB_TOKEN environment variable is not set")
