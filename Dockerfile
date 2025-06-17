@@ -1,4 +1,4 @@
-FROM ghcr.io/osirisrtos/osiris/devcontainer:feature-reduce-container-size
+FROM ghcr.io/osirisrtos/osiris/devcontainer:main
 
 # Create a non-root user and group with the same UID/GID as the host user
 ARG USERNAME=runner
